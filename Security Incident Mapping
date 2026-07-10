@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SIM – Security Incident Mapping</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        h1 {
+            color: #b71c1c;
+            border-bottom: 3px solid #b71c1c;
+            padding-bottom: 12px;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .subhead {
+            color: #555;
+            margin: 10px 0 20px 0;
+            font-size: 16px;
+        }
+        .map-placeholder {
+            background: #e9ecef;
+            height: 220px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #555;
+            margin: 20px 0;
+            border: 2px dashed #aaa;
+        }
+        .map-placeholder span {
+            font-size: 40px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #b71c1c;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(183, 28, 28, 0.1);
+        }
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        .anon-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 12px 0 18px 0;
+        }
+        .anon-row input {
+            width: auto;
+            transform: scale(1.2);
+        }
+        .anon-row label {
+            font-weight: normal;
+            margin: 0;
+        }
+        .btn {
+            background: #b71c1c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .btn:hover {
+            background: #880e0e;
+            transform: scale(1.02);
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        .reports-section {
+            margin-top: 35px;
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+        }
+        .reports-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .report-card {
+            background: #f8f9fa;
+            border-left: 5px solid #b71c1c;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .report-card strong {
+            color: #b71c1c;
+        }
+        .report-card .meta {
+            font-size: 12px;
+            color: #888;
+            margin-top: 6px;
+        }
+        .empty-msg {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #aaa;
+            text-align: center;
+            border-top: 1px solid #eee;
+            padding-top: 18px;
+        }
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container { padding: 16px; }
+            h1 { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔒 SIM – Security Incident Mapping</h1>
+    <p class="subhead">Report campus crimes quickly &amp; anonymously. All reports are confidential.</p>
+
+    <!-- Mock Map -->
+    <div class="map-placeholder">
+        <span>🗺️</span>
+        <p><strong>Live Incident Map</strong><br/><small>Reported incidents appear here in real-time</small></p>
+    </div>
+
+    <!-- Report Form -->
+    <form id="reportForm">
+        <div class="form-group">
+            <label for="crimeType">Crime Type *</label>
+            <select id="crimeType" required>
+                <option value="">— Select —</option>
+                <option>Theft / Stealing</option>
+                <option>Assault / Stabbing</option>
+                <option>Sexual Harassment / Rape</option>
+                <option>Murder</option>
+                <option>Vandalism</option>
+                <option>Drug-related</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="location">Location (e.g., Hall 3, Room 204) *</label>
+            <input type="text" id="location" placeholder="Be as specific as possible" required />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description *</label>
+            <textarea id="description" placeholder="What happened? When? Any suspect description?" required></textarea>
+        </div>
+
+        <div class="anon-row">
+            <input type="checkbox" id="anonymous" checked />
+            <label for="anonymous">✅ Report Anonymously (recommended)</label>
+        </div>
+
+        <button type="submit" class="btn">🚨 Submit Report</button>
+    </form>
+
+    <!-- Recent Reports -->
+    <div class="reports-section">
+        <h3>📋 Recent Incidents</h3>
+        <div id="reportList">
+            <div class="empty-msg">No incidents reported yet. Be the first!</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        SIM v1.0 &bull; For emergencies, call campus security immediately.
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Load reports from localStorage
+        function loadReports() {
+            const list = document.getElementById('reportList');
+            const reports = JSON.parse(localStorage.getItem('simReports')) || [];
+
+            if (reports.length === 0) {
+                list.innerHTML = '<div class="empty-msg">No incidents reported yet. Be the first!</div>';
+                return;
+            }
+
+            // Show latest 5 first
+            const recent = reports.slice(-5).reverse();
+            list.innerHTML = recent.map(r => `
+                <div class="report-card">
+                    <strong>${escapeHtml(r.type)}</strong> &bull; ${escapeHtml(r.location)}
+                    <div>${escapeHtml(r.description)}</div>
+                    <div class="meta">
+                        ${r.anonymous ? '🔒 Anonymous' : '👤 Identified'} &bull;
+                        ${new Date(r.timestamp).toLocaleString()}
+                        &bull; Status: <span style="color:#b71c1c;font-weight:600;">${escapeHtml(r.status || 'Pending')}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Simple escape to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Handle form submission
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const crimeType = document.getElementById('crimeType').value;
+            const location = document.getElementById('location').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const anonymous = document.getElementById('anonymous').checked;
+
+            if (!crimeType || !location || !description) {
+                alert('⚠️ Please fill in all required fields.');
+                return;
+            }
+
+            const report = {
+                id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+                type: crimeType,
+                location: location,
+                description: description,
+                anonymous: anonymous,
+                timestamp: Date.now(),
+                status: 'Pending'
+            };
+
+            // Save to localStorage
+            const reports = JSON.parse(localStorage.getItem('simReports')) || [];
+            reports.push(report);
+            localStorage.setItem('simReports', JSON.stringify(reports));
+
+            // Clear form
+            document.getElementById('reportForm').reset();
+            document.getElementById('anonymous').checked = true;
+
+            // Reload list
+            loadReports();
+
+            // Show success with reference
+            alert(`✅ Report submitted successfully!\nReference: #${report.id.toUpperCase()}\nStatus: Pending`);
+        });
+
+        // Initial load
+        loadReports();
+    })();
+</script>
+
+</body>
+</html>
